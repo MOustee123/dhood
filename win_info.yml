@@ -20,7 +20,7 @@
 
 - name: Get SHA1 checksum of file
   ansible.windows.win_stat:
-    path: C:\HOME_POC
+    path: C:\HOME_PO
     get_checksum: true
   register: sha1_checksum
 
