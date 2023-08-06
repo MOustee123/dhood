@@ -1,0 +1,38 @@
+- name: Obtain information about a file
+  ansible.windows.win_stat:
+    path: C:\HOME_POC
+  register: file_info
+
+- name: Obtain information about a folder
+  ansible.windows.win_stat:
+    path: C:\HOME_POC
+  register: folder_info
+
+- name: Get MD5 checksum of a file
+  ansible.windows.win_stat:
+    path: C:\HOME_POC
+    get_checksum: true
+    checksum_algorithm: md5
+  register: md5_checksum
+
+- debug:
+    var: md5_checksum.stat.checksum
+
+- name: Get SHA1 checksum of file
+  ansible.windows.win_stat:
+    path: C:\HOME_POC
+    get_checksum: true
+  register: sha1_checksum
+
+- debug:
+    var: sha1_checksum.stat.checksum
+
+- name: Get SHA256 checksum of file
+  ansible.windows.win_stat:
+    path: C:\HOME_POC
+    get_checksum: true
+    checksum_algorithm: sha256
+  register: sha256_checksum
+
+- debug:
+    var: sha256_checksum.stat.checksum
