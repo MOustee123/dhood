@@ -1,38 +1,29 @@
-- name: Obtain information about a file
-  ansible.windows.win_stat:
-    path: C:\HOME_POC
-  register: file_info
+---
+- name: Install IIS
+  hosts: "{{ _hosts | default('windows') }}"
+  vars:
+    iis_message: undef
 
-- name: Obtain information about a folder
-  ansible.windows.win_stat:
-    path: C:\HOME_POC
-  register: folder_info
+  tasks:
+    - name: Wait for system to become reachable over WinRM
+      ansible.builtin.wait_for_connection:
+        timeout: 300
 
-- name: Get MD5 checksum of a file
-  ansible.windows.win_stat:
-    path: C:\HOME_POC
-    get_checksum: true
-    checksum_algorithm: md5
-  register: md5_checksum
+    - name: Install IIS
+      ansible.windows.win_feature:
+        name: Web-Server
+        state: present
 
-- debug:
-    var: md5_checksum.stat.checksum
+    - name: Start IIS service
+      ansible.windows.win_service:
+        name: W3Svc
+        state: started
 
-- name: Get SHA1 checksum of file
-  ansible.windows.win_stat:
-    path: C:\HOME_POC
-    get_checksum: true
-  register: sha1_checksum
+    - name: Create website index.html
+      ansible.windows.win_copy:
+        content: "{{ iis_message }}"
+        dest: C:\Inetpub\wwwroot\index.html
 
-- debug:
-    var: sha1_checksum.stat.checksum
-
-- name: Get SHA256 checksum of file
-  ansible.windows.win_stat:
-    path: C:\HOME_POC
-    get_checksum: true
-    checksum_algorithm: sha256
-  register: sha256_checksum
-
-- debug:
-    var: sha256_checksum.stat.checksum
+    - name: Show website address
+      ansible.builtin.debug:
+        msg: http://{{ ansible_host }}
