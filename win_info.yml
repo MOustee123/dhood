@@ -1,6 +1,6 @@
 ---
 - name: Install IIS
-  hosts: windows_client
+  hosts: windows
   vars:
     iis_message: undef
 
