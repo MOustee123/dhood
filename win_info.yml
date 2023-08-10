@@ -1,6 +1,6 @@
 ---
 - name: Install IIS
-  hosts: "{{ _hosts | default('windows_client') }}"
+  hosts: "{{ _hosts | default('windows') }}"
   vars:
     iis_message: undef
 
