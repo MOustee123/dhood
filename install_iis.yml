@@ -1,0 +1,29 @@
+---
+- name: Install IIS
+  hosts: "{{ _hosts | default('window_client') }}"
+  vars:
+    iis_message: undef
+
+  tasks:
+    - name: Wait for system to become reachable over WinRM
+      ansible.builtin.wait_for_connection:
+        timeout: 300
+
+    - name: Install IIS
+      ansible.windows.win_feature:
+        name: Web-Server
+        state: present
+
+    - name: Start IIS service
+      ansible.windows.win_service:
+        name: W3Svc
+        state: started
+
+    - name: Create website index.html
+      ansible.windows.win_copy:
+        content: "{{ iis_message }}"
+        dest: C:\Inetpub\wwwroot\index.html
+
+    - name: Show website address
+      ansible.builtin.debug:
+        msg: http://{{ ansible_host }}
