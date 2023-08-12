@@ -1,13 +1,11 @@
 ---
 - name: Install IIS
-  hosts: windows_client
+  hosts: "{{ _hosts | default('windows_client') }}"
   vars:
     iis_message: undef
 
   tasks:
-    - name: Wait for system to become reachable over WinRM
-      ansible.builtin.wait_for_connection:
-        timeout: 300
+    
 
     - name: Install IIS
       ansible.windows.win_feature:
