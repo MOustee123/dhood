@@ -5,8 +5,6 @@
     iis_message: undef
 
   tasks:
-    
-
     - name: Install IIS
       ansible.windows.win_feature:
         name: Web-Server
