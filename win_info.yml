@@ -11,6 +11,7 @@
 
     - name: Install IIS
       ansible.windows.win_feature:
+        gather_facts: no
         name: Web-Server
         state: present
 
