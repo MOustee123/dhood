@@ -5,6 +5,10 @@
     iis_message: undef
 
   tasks:
+    - name: Wait for system to become reachable over WinRM
+      ansible.builtin.wait_for_connection:
+        timeout: 60
+
     - name: Install IIS
       ansible.windows.win_feature:
         name: Web-Server
