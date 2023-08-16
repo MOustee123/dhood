@@ -10,7 +10,7 @@
         timeout: 300
 
     - name: Install IIS
-      ansible.windows.win_feature:
+      ansible.windows.setup:
         gather_facts: no
         name: Web-Server
         state: present
