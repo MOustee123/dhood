@@ -4,14 +4,15 @@
   vars:
     iis_message: undef
 
-  tasks:
-    - name: Wait for system to become reachable over WinRM
-      ansible.builtin.wait_for_connection:
-        timeout: 300
+  ---
+- name: Install IIS
+  hosts: "{{ _hosts | default('window_client') }}"
+  vars:
+    iis_message: undef
 
+  tasks:
     - name: Install IIS
       ansible.windows.win_feature:
-        gather_facts: yes
         name: Web-Server
         state: present
 
@@ -28,3 +29,4 @@
     - name: Show website address
       ansible.builtin.debug:
         msg: http://{{ ansible_host }}
+
