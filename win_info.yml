@@ -4,7 +4,6 @@
   vars:
     iis_message: undef
 
-  ---
 - name: Install IIS
   hosts: "{{ _hosts | default('window_client') }}"
   vars:
