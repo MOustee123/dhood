@@ -11,8 +11,9 @@
         state: present
 
     - name: Start IIS service
-      ansible.windows.win_service:
+      ansible.windows.win_service:     
         name: W3Svc
+        gather_facts: no 
         state: started
 
     - name: Create website index.html
