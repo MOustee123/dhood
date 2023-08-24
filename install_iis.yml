@@ -6,9 +6,10 @@
 
   tasks:
     - name: Install IIS
-      ansible.windows.win_feature:
-        name: Web-Server
-        state: present
+    ansible.windows.win_feature:
+      name: Web-Server
+      state: present
+    gather_facts: no
 
     - name: Start IIS service
       ansible.windows.win_service:     
